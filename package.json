@@ -11,13 +11,14 @@
   "dependencies": {
     "@vitejs/plugin-basic-ssl": "latest",
     "@vitejs/plugin-react": "latest",
-    "vite": "latest",
-    "typescript": "latest",
+    "office-js": "latest",
     "react": "latest",
     "react-dom": "latest",
-    "office-js": "latest"
+    "typescript": "latest",
+    "vite": "latest"
   },
   "devDependencies": {
+    "@types/node": "^26.0.1",
     "@types/react": "latest",
     "@types/react-dom": "latest"
   }
