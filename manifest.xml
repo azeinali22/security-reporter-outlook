@@ -10,12 +10,13 @@
   <DefaultLocale>en-US</DefaultLocale>
   <DisplayName DefaultValue="Security Reporter" />
   <Description DefaultValue="Report emails as Junk or Spam. No phishing option." />
-  <IconUrl DefaultValue="https://localhost:5173/assets/icon-64.png" />
-  <HighResolutionIconUrl DefaultValue="https://localhost:5173/assets/icon-128.png" />
-  <SupportUrl DefaultValue="https://localhost:5173" />
+
+  <IconUrl DefaultValue="https://security-reporter-outlook-sandy.vercel.app/assets/icon-64.png" />
+  <HighResolutionIconUrl DefaultValue="https://security-reporter-outlook-sandy.vercel.app/assets/icon-128.png" />
+  <SupportUrl DefaultValue="https://security-reporter-outlook-sandy.vercel.app" />
 
   <AppDomains>
-    <AppDomain>https://localhost:5173</AppDomain>
+    <AppDomain>https://security-reporter-outlook-sandy.vercel.app</AppDomain>
   </AppDomains>
 
   <Hosts>
@@ -31,7 +32,7 @@
   <FormSettings>
     <Form xsi:type="ItemRead">
       <DesktopSettings>
-        <SourceLocation DefaultValue="https://localhost:5173/taskpane.html" />
+        <SourceLocation DefaultValue="https://security-reporter-outlook-sandy.vercel.app/taskpane.html" />
         <RequestedHeight>450</RequestedHeight>
       </DesktopSettings>
     </Form>
@@ -85,13 +86,13 @@
 
     <Resources>
       <bt:Images>
-        <bt:Image id="icon16" DefaultValue="https://localhost:5173/assets/icon-16.png" />
-        <bt:Image id="icon32" DefaultValue="https://localhost:5173/assets/icon-32.png" />
-        <bt:Image id="icon80" DefaultValue="https://localhost:5173/assets/icon-80.png" />
+        <bt:Image id="icon16" DefaultValue="https://security-reporter-outlook-sandy.vercel.app/assets/icon-16.png" />
+        <bt:Image id="icon32" DefaultValue="https://security-reporter-outlook-sandy.vercel.app/assets/icon-32.png" />
+        <bt:Image id="icon80" DefaultValue="https://security-reporter-outlook-sandy.vercel.app/assets/icon-80.png" />
       </bt:Images>
 
       <bt:Urls>
-        <bt:Url id="taskpaneUrl" DefaultValue="https://localhost:5173/taskpane.html" />
+        <bt:Url id="taskpaneUrl" DefaultValue="https://security-reporter-outlook-sandy.vercel.app/taskpane.html" />
       </bt:Urls>
 
       <bt:ShortStrings>
