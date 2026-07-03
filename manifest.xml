@@ -13,7 +13,7 @@
 
   <IconUrl DefaultValue="https://security-reporter-outlook-sandy.vercel.app/assets/icon-64.png" />
   <HighResolutionIconUrl DefaultValue="https://security-reporter-outlook-sandy.vercel.app/assets/icon-128.png" />
-  <SupportUrl DefaultValue="https://security-reporter-outlook-sandy.vercel.app" />
+<SupportUrl DefaultValue="https://security-reporter-outlook-sandy.vercel.app/taskpane.html" />
 
   <AppDomains>
     <AppDomain>https://security-reporter-outlook-sandy.vercel.app</AppDomain>
