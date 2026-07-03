@@ -13,7 +13,7 @@ function getEmailInfo(): EmailInfo {
 
   if (!office?.context?.mailbox?.item) {
     return {
-      subject: "Browser test message",
+      subject: "Not available outside Outlook",
       from: "Not available outside Outlook",
       mode: "browser",
     };
@@ -36,7 +36,7 @@ function App() {
     mode: "browser",
   });
 
-  const [status, setStatus] = useState("Ready.");
+  const [status, setStatus] = useState("");
 
   useEffect(() => {
     const office = (window as any).Office;
@@ -51,7 +51,7 @@ function App() {
   }, []);
 
   function report(type: "Junk" | "Spam") {
-    setStatus(`${type} report submitted in test mode.`);
+    setStatus(`${type} report submitted.`);
     console.log({
       reportType: type,
       subject: email.subject,
@@ -63,26 +63,44 @@ function App() {
   return (
     <main className="container">
       <section className="header">
-        <div className="shield">🛡️</div>
+        <img src="/assets/icon-128.png" alt="Security Reporter logo" className="logo" />
         <div>
-          <h1>Security Reporter</h1>
-          <p>Report junk or spam only. No phishing option.</p>
+          <h1>Email Reporter</h1>
+          <p className="subtitle">Report email as Junk or Spam to NWSOC</p>
         </div>
       </section>
 
       <section className="card">
         <div className="label">Selected Email</div>
-        <div><strong>Subject:</strong> {email.subject}</div>
-        <div><strong>From:</strong> {email.from}</div>
-        <div className="mode">Mode: {email.mode === "outlook" ? "Outlook add-in" : "Browser preview"}</div>
+
+        <div className="info-row">
+          <strong>Subject:</strong> {email.subject}
+        </div>
+
+        <div className="info-row">
+          <strong>From:</strong> {email.from}
+        </div>
+
+        <div className="mode">
+          Mode: {email.mode === "outlook" ? "Outlook add-in" : "Browser preview"}
+        </div>
       </section>
 
       <section className="actions">
-        <button className="btn junk" onClick={() => report("Junk")}>Report Junk</button>
-        <button className="btn spam" onClick={() => report("Spam")}>Report Spam</button>
+        <button className="btn junk" onClick={() => report("Junk")}>
+          Report Junk
+        </button>
+
+        <button className="btn spam" onClick={() => report("Spam")}>
+          Report Spam
+        </button>
       </section>
 
-      <section className="status">{status}</section>
+      {status && (
+  <section className="status">
+    ✔ {status}
+  </section>
+)}
     </main>
   );
 }
