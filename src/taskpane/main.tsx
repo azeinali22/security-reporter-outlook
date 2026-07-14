@@ -50,23 +50,44 @@ function App() {
     }
   }, []);
 
-  function report(type: "Junk" | "Spam") {
-    setStatus(`${type} report submitted.`);
-    console.log({
-      reportType: type,
-      subject: email.subject,
-      from: email.from,
-      reportedAt: new Date().toISOString(),
-    });
+async function report() {
+  const office = (window as any).Office;
+  const item = office?.context?.mailbox?.item;
+
+  if (!item) {
+    setStatus("Unable to access the selected email.");
+    return;
   }
+
+  try {
+    const itemId = item.itemId;
+
+    if (!itemId) {
+      setStatus("Unable to get the email ID.");
+      return;
+    }
+
+    console.log("Selected message ID:", itemId);
+
+    setStatus("Email selected successfully. Ready to move to Junk.");
+  } catch (error) {
+    console.error("Report error:", error);
+    setStatus("Unable to process the email.");
+  }
+}
 
   return (
     <main className="container">
       <section className="header">
-        <img src="/assets/icon-128.png" alt="Security Reporter logo" className="logo" />
+        <img
+          src="/assets/icon-128.png"
+          alt="Security Reporter logo"
+          className="logo"
+        />
+
         <div>
           <h1>Email Reporter</h1>
-          <p className="subtitle">Report email as Junk or Spam to NWSOC</p>
+          <p className="subtitle">Report suspicious email as Spam to NWSOC</p>
         </div>
       </section>
 
@@ -87,20 +108,16 @@ function App() {
       </section>
 
       <section className="actions">
-        <button className="btn junk" onClick={() => report("Junk")}>
-          Report Junk
-        </button>
-
-        <button className="btn spam" onClick={() => report("Spam")}>
+        <button className="btn spam" onClick={report}>
           Report Spam
         </button>
       </section>
 
       {status && (
-  <section className="status">
-    ✔ {status}
-  </section>
-)}
+        <section className="status">
+          ✔ {status}
+        </section>
+      )}
     </main>
   );
 }
