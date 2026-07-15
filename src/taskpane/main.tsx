@@ -4,7 +4,8 @@ import "./styles.css";
 
 type EmailInfo = {
   subject: string;
-  from: string;
+  fromName: string;
+  fromEmail: string;
   mode: "outlook" | "browser";
 };
 
@@ -14,7 +15,8 @@ function getEmailInfo(): EmailInfo {
   if (!office?.context?.mailbox?.item) {
     return {
       subject: "Not available outside Outlook",
-      from: "Not available outside Outlook",
+      fromName: "Unknown sender",
+      fromEmail: "Not available",
       mode: "browser",
     };
   }
@@ -24,7 +26,8 @@ function getEmailInfo(): EmailInfo {
 
   return {
     subject: item.subject || "(No subject)",
-    from: from?.emailAddress || from?.displayName || "Unknown sender",
+    fromName: from?.displayName || "Unknown sender",
+    fromEmail: from?.emailAddress || "Unknown email",
     mode: "outlook",
   };
 }
@@ -32,11 +35,12 @@ function getEmailInfo(): EmailInfo {
 function App() {
   const [email, setEmail] = useState<EmailInfo>({
     subject: "Loading...",
-    from: "Loading...",
+    fromName: "Loading...",
+    fromEmail: "Loading...",
     mode: "browser",
   });
 
-  const [status, setStatus] = useState("");
+  const [reported, setReported] = useState(false);
 
   useEffect(() => {
     const office = (window as any).Office;
@@ -50,72 +54,103 @@ function App() {
     }
   }, []);
 
-async function report() {
-  const office = (window as any).Office;
-  const item = office?.context?.mailbox?.item;
+  function reportSpam() {
+    const office = (window as any).Office;
+    const item = office?.context?.mailbox?.item;
 
-  if (!item) {
-    setStatus("Unable to access the selected email.");
-    return;
+    console.log({
+      reportType: "Junk/Spam",
+      itemId: item?.itemId,
+      subject: email.subject,
+      fromName: email.fromName,
+      fromEmail: email.fromEmail,
+      reportedAt: new Date().toISOString(),
+    });
+
+    setReported(true);
   }
 
-  try {
-    const itemId = item.itemId;
+  function closePanel() {
+    const office = (window as any).Office;
 
-    if (!itemId) {
-      setStatus("Unable to get the email ID.");
-      return;
+    if (office?.context?.ui?.closeContainer) {
+      office.context.ui.closeContainer();
     }
-
-    console.log("Selected message ID:", itemId);
-
-    setStatus("Email selected successfully. Ready to move to Junk.");
-  } catch (error) {
-    console.error("Report error:", error);
-    setStatus("Unable to process the email.");
   }
-}
 
   return (
     <main className="container">
-      <section className="header">
+      <header className="header">
         <img
           src="/assets/icon-128.png"
-          alt="Security Reporter logo"
+          alt="Report Junk or Spam"
           className="logo"
         />
 
-        <div>
-          <h1>Email Reporter</h1>
-          <p className="subtitle">Report suspicious email as Spam to NWSOC</p>
-        </div>
-      </section>
+        <h1>
+          Report
+          <br />
+          Junk/Spam
+        </h1>
+      </header>
 
-      <section className="card">
-        <div className="label">Selected Email</div>
+      {!reported ? (
+        <>
+          <p className="intro">
+            Do you wish to report the following email as junk/spam?
+          </p>
 
-        <div className="info-row">
-          <strong>Subject:</strong> {email.subject}
-        </div>
+          <section className="email-card">
+            <div className="card-title">SELECTED EMAIL</div>
 
-        <div className="info-row">
-          <strong>From:</strong> {email.from}
-        </div>
+            <div className="email-field">
+              <span className="field-label">From:</span>
 
-        <div className="mode">
-          Mode: {email.mode === "outlook" ? "Outlook add-in" : "Browser preview"}
-        </div>
-      </section>
+              <strong>{email.fromName}</strong>
 
-      <section className="actions">
-        <button className="btn spam" onClick={report}>
-          Report Spam
-        </button>
-      </section>
+              <span className="email-address">
+                &lt;{email.fromEmail}&gt;
+              </span>
+            </div>
 
-      {status && (
-        <section className="status">
-          ✔ {status}
+            <div className="email-field">
+              <span className="field-label">Subject:</span>
+
+              <span>{email.subject}</span>
+            </div>
+          </section>
+
+          <button className="primary-button" onClick={reportSpam}>
+            Report as Junk/Spam
+          </button>
+        </>
+      ) : (
+        <section className="confirmation">
+          <p>Thanks for reporting!</p>
+
+          <p>
+            Reporting junk/spam helps improve junk/spam email detection for you
+            and others in the future.
+          </p>
+
+          <p>
+            Any future emails that are sent from
+          </p>
+
+          <p className="sender-summary">
+            <strong>{email.fromName}</strong>
+            <br />
+            &lt;{email.fromEmail}&gt;
+          </p>
+
+          <p>
+            will be automatically blocked and moved to your{" "}
+            <strong>Junk Email</strong> folder.
+          </p>
+
+          <button className="close-button" onClick={closePanel}>
+            Close
+          </button>
         </section>
       )}
     </main>
