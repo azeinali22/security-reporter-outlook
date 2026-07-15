@@ -8,8 +8,8 @@
   <Version>1.0.0.0</Version>
   <ProviderName>Hospital IT</ProviderName>
   <DefaultLocale>en-US</DefaultLocale>
-  <DisplayName DefaultValue="Security Reporter" />
-  <Description DefaultValue="Report emails as Junk or Spam. No phishing option." />
+  <DisplayName DefaultValue="Report as Junk/Spam" />
+  <Description DefaultValue="Report emails as Junk or Spam. Please use PhishNotify button if you want to report it as phishing." />
 
   <IconUrl DefaultValue="https://security-reporter-outlook-sandy.vercel.app/assets/icon-64.png" />
   <HighResolutionIconUrl DefaultValue="https://security-reporter-outlook-sandy.vercel.app/assets/icon-128.png" />
